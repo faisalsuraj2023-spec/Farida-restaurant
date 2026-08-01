@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farida Comfortable & Delight Restaurant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #8B4513; --secondary: #D2691E; --dark: #2C1810; --light: #FFF8DC; --white: #fff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: #333; }
+        .navbar { background: var(--dark); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { color: var(--white); font-size: 1.3rem; }
+        .navbar h1 span { color: var(--secondary); }
+        .nav-links { display: flex; gap: 1rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.9rem; padding: 5px 10px; border-radius: 5px; transition: 0.3s; }
+        .nav-links a:hover { background: var(--secondary); }
+        .hero { height: 100vh; background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+        .hero-content { color: var(--white); }
+        .hero-content h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero-content p { font-size: 1.1rem; margin-bottom: 2rem; }
+        .btn { padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; font-size: 1rem; text-decoration: none; display: inline-block; margin: 5px; transition: 0.3s; }
+        .btn-primary { background: var(--secondary); color: white; }
+        .btn-primary:hover { background: var(--primary); }
+        .btn-secondary { background: transparent; color: white; border: 2px solid white; }
+        section { padding: 60px 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h2.section-title { text-align: center; font-size: 2rem; margin-bottom: 2rem; color: var(--dark); }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        .menu-item { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .menu-item h4 { color: var(--dark); margin-bottom: 0.5rem; }
+        .menu-item .price { color: var(--secondary); font-weight: bold; font-size: 1.2rem; }
+        .menu-item .btn { width: 100%; margin-top: 10px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+        form input, form select, form textarea { width: 100%; padding: 12px; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
+        form textarea { resize: vertical; }
+        .contact-info { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .info-item { display: flex; gap: 1rem; align-items: flex-start; }
+        .info-item i { color: var(--secondary); font-size: 1.5rem; margin-top: 3px; }
+        .footer { background: var(--dark); color: white; padding: 2rem 20px; text-align: center; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; }
+        .modal-content { background: white; margin: 10% auto; padding: 2rem; border-radius: 10px; max-width: 400px; position: relative; }
+        .close { position: absolute; right: 15px; top: 10px; font-size: 1.5rem; cursor: pointer; }
+        .notification { position: fixed; bottom: 20px; right: 20px; background: #28a745; color: white; padding: 15px 25px; border-radius: 5px; z-index: 3000; animation: slideIn 0.3s; }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @media (max-width: 768px) { .nav-links { display: none; } .gallery-grid { grid-template-columns: repeat(2, 1fr); } .contact-info { grid-template-columns: 1fr; } .hero-content h2 { font-size: 1.8rem; } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <h1>Farida<span>Restaurant</span></h1>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#reservation">Reservation</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#" onclick="openModal('loginModal')">Admin</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Welcome to Farida Comfortable & Delight Restaurant</h2>
+            <p>Experience the authentic taste of Nigeria with our delicious traditional dishes</p>
+            <a href="#menu" class="btn btn-primary">View Menu</a>
+            <a href="#reservation" class="btn btn-secondary">Book a Table</a>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="container">
+            <h2 class="section-title">Our Menu</h2>
+            <div class="menu-grid" id="menuGrid"></div>
+        </div>
+    </section>
+
+    <section id="gallery" style="background:white;">
+        <div class="container">
+            <h2 class="section-title">Gallery</h2>
+            <div class="gallery-grid">
+                <img src="https://images.unsplash.com/photo-1604329760661-e71dc83f8f74?w=400" alt="Jollof Rice">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" alt="Nigerian Food">
+                <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400" alt="Suya">
+                <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400" alt="Restaurant">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400" alt="Dining">
+                <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=400" alt="Food">
+            </div>
+        </div>
+    </section>
+
+    <section id="reservation">
+        <div class="container">
+            <h2 class="section-title">Make a Reservation</h2>
+            <form onsubmit="submitReservation(event)" style="max-width:600px;margin:0 auto;">
+                <input type="text" id="rName" placeholder="Full Name" required>
+                <input type="email" id="rEmail" placeholder="Email" required>
+                <input type="tel" id="rPhone" placeholder="Phone Number" required>
+                <select id="rGuests" required>
+                    <option value="">Number of Guests</option>
+                    <option value="1">1 Guest</option><option value="2">2 Guests</option>
+                    <option value="3">3 Guests</option><option value="4">4 Guests</option>
+                    <option value="5">5 Guests</option><option value="6">6+ Guests</option>
+                </select>
+                <input type="date" id="rDate" required>
+                <input type="time" id="rTime" required>
+                <textarea id="rSpecial" rows="3" placeholder="Special requests..."></textarea>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Book Table</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="contact" style="background:white;">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-info">
+                <div>
+                    <div class="info-item"><i class="fas fa-map-marker-alt"></i><div><strong>Address</strong><p>123 Lagos Street, Abuja, Nigeria</p></div></div>
+                    <div class="info-item"><i class="fas fa-phone"></i><div><strong>Phone</strong><p>+234 123 456 7890</p></div></div>
+                </div>
+                <div>
+                    <div class="info-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><p>info@faridarestaurant.com</p></div></div>
+                    <div class="info-item"><i class="fas fa-clock"></i><div><strong>Hours</strong><p>Mon-Sat: 8AM-10PM<br>Sun: 10AM-8PM</p></div></div>
+                </div>
+            </div>
+            <form onsubmit="submitContact(event)" style="max-width:600px;margin:0 auto;">
+                <input type="text" id="cName" placeholder="Your Name" required>
+                <input type="email" id="cEmail" placeholder="Your Email" required>
+                <input type="text" id="cSubject" placeholder="Subject">
+                <textarea id="cMessage" rows="4" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Farida Comfortable & Delight Restaurant. All rights reserved.</p>
+        <p style="margin-top:10px;">
+            <a href="#" style="color:white;margin:0 10px;"><i class="fab fa-facebook"></i></a>
+            <a href="#" style="color:white;margin:0 10px;"><i class="fab fa-instagram"></i></a>
+            <a href="#" style="color:white;margin:0 10px;"><i class="fab fa-whatsapp"></i></a>
+        </p>
+    </footer>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h3>Admin Login</h3>
+            <p style="margin-bottom:10px;font-size:0.85rem;color:#666;">Demo: admin@faridarestaurant.com / admin123</p>
+            <form onsubmit="login(event)">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API = 'https://farida-api.onrender.com';
+        const menuItems = [
+            { name: 'Jollof Rice & Chicken', price: '₦2,500' },
+            { name: 'Egusi Soup & Pounded Yam', price: '₦3,500' },
+            { name: 'Fried Rice Special', price: '₦2,800' },
+            { name: 'Suya Platter', price: '₦1,500' },
+            { name: 'Efo Riro & Semovita', price: '₦3,200' },
+            { name: 'Moi Moi', price: '₦800' },
+            { name: 'Ofada Rice & Ayamase', price: '₦3,000' },
+            { name: 'Pepper Soup', price: '₦2,000' },
+            { name: 'Zobo Drink', price: '₦500' },
+            { name: 'Chapman', price: '₦800' },
+            { name: 'Puff Puff (6pcs)', price: '₦600' },
+            { name: 'Okro Soup & Eba', price: '₦2,800' }
+        ];
+
+        const menuGrid = document.getElementById('menuGrid');
+        menuItems.forEach(item => {
+            menuGrid.innerHTML += `<div class="menu-item"><h4>${item.name}</h4><p class="price">${item.price}</p><button class="btn btn-primary" onclick="order('${item.name}','${item.price}')">Add to Order</button></div>`;
+        });
+
+        let cart = [];
+        function order(name, price) {
+            cart.push({ name, price });
+            showNotification(name + ' added! (' + cart.length + ' items in cart)');
+        }
+
+        function showNotification(msg) {
+            const n = document.createElement('div');
+            n.className = 'notification';
+            n.textContent = msg;
+            document.body.appendChild(n);
+            setTimeout(() => n.remove(), 3000);
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'block'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function submitReservation(e) {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('rName').value,
+                email: document.getElementById('rEmail').value,
+                phone: document.getElementById('rPhone').value,
+                guests: document.getElementById('rGuests').value,
+                date: document.getElementById('rDate').value,
+                time: document.getElementById('rTime').value,
+                special: document.getElementById('rSpecial').value
+            };
+            fetch(API + '/api/reservations', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(r => r.json()).then(d => {
+                alert(d.message);
+                if(d.success) e.target.reset();
+            }).catch(() => alert('Server not connected yet. Will work once Render is set up!'));
+        }
+
+        function submitContact(e) {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('cName').value,
+                email: document.getElementById('cEmail').value,
+                subject: document.getElementById('cSubject').value,
+                message: document.getElementById('cMessage').value
+            };
+            fetch(API + '/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(r => r.json()).then(d => {
+                alert(d.message);
+                if(d.success) e.target.reset();
+            }).catch(() => alert('Message will send once backend is live!'));
+        }
+
+        function login(e) {
+            e.preventDefault();
+            fetch(API + '/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: document.getElementById('loginEmail').value,
+                    password: document.getElementById('loginPassword').value
+                })
+            }).then(r => r.json()).then(d => {
+                if(d.success) {
+                    localStorage.setItem('user', JSON.stringify(d.user));
+                    closeModal('loginModal');
+                    alert('Welcome, ' + d.user.name + '!');
+                } else {
+                    alert('Invalid credentials');
+                }
+            }).catch(() => alert('Login will work once backend is live!'));
+        }
+    </script>
+</body>
+</html>
